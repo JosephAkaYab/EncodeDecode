@@ -3,14 +3,19 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:EncodeDecode"
         mc:Ignorable="d"
         Title="MainWindow" Height="500" Width="1000">
     <Grid>
-        <Button x:Name="btnSetting" Content="Encode" Margin="10,222,0,0" HorizontalAlignment="Left" Width="80" Height="25" VerticalAlignment="Top" Click="BtnSetting_Click"/>
+        <Button x:Name="btnSetting" Content="Encode" Margin="44,222,0,0" HorizontalAlignment="Left" Width="80" Height="25" VerticalAlignment="Top" Click="BtnSetting_Click"/>
         <TextBox x:Name="txtInput" HorizontalAlignment="Left" Height="207" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="972" TextChanged="TxtInput_TextChanged"/>
         <TextBox x:Name="txtOutput" HorizontalAlignment="Left" Height="207" Margin="10,252,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="972"/>
-        <TextBox x:Name="txtKey" HorizontalAlignment="Left" Height="25" Margin="180,222,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="802" FontSize="16" TextChanged="TxtKey_TextChanged" Text="0123456789"/>
-        <Button x:Name="btnKey" Content="Gen Key" Margin="95,222,0,0" HorizontalAlignment="Left" Width="80" Height="25" VerticalAlignment="Top" Click="BtnKey_Click"/>
+        <Button x:Name="btnKey1" Content="Gen Keys" Margin="130,222,0,0" HorizontalAlignment="Left" Width="80" Height="25" VerticalAlignment="Top" Click="BtnKey_Click"/>        
+        <TextBox x:Name="txtKey" HorizontalAlignment="Left" Height="25" Margin="214,222,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="100" FontSize="16" TextChanged="TxtKey_TextChanged" Text="0123456789" TextAlignment="Center"/>
+        <TextBox x:Name="txtKey1" HorizontalAlignment="Left" Height="25" Margin="320,222,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="100" FontSize="16" TextChanged="TxtKey1_TextChanged" Text="0123456789" TextAlignment="Center"/>
+        <TextBox x:Name="txtKey2" HorizontalAlignment="Left" Height="25" Margin="424,222,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="100" FontSize="16" TextChanged="TxtKey2_TextChanged" Text="0123456789" TextAlignment="Center"/>
+        <TextBox x:Name="txtKey3" HorizontalAlignment="Left" Height="25" Margin="530,222,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="100" FontSize="16" TextChanged="TxtKey3_TextChanged" Text="0123456789" TextAlignment="Center"/>
+        <TextBox x:Name="txtKey4" HorizontalAlignment="Left" Height="25" Margin="634,222,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="100" FontSize="16" TextChanged="TxtKey4_TextChanged" Text="0123456789" TextAlignment="Center"/>
+        <TextBox x:Name="txtKey5" HorizontalAlignment="Left" Height="25" Margin="740,222,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="100" FontSize="16" TextChanged="TxtKey5_TextChanged" Text="0123456789" TextAlignment="Center"/>
+        <TextBox x:Name="txtKey6" HorizontalAlignment="Left" Height="25" Margin="844,222,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="100" FontSize="16" TextChanged="TxtKey6_TextChanged" Text="0123456789" TextAlignment="Center"/>
     </Grid>
 </Window>

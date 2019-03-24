@@ -11,26 +11,29 @@ namespace EncodeDecode
 {
     public partial class MainWindow : Window
     {
-        private const string charList = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "; //List of chars the user can enter into the input, they can enter others but they will be ignored
-        private const string keychars = "abcdefghijklmnopqrstuvwxyz"; //List of chars that the key can use
+        private const string charList = "0123456789 abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"; //List of chars the user can enter into the input, they can enter others but they will be ignored
+        private const string keychars = "abcdefghijklmnopqrstuvwxyz-"; //List of chars that the key can use
+        private const string splitchars = "¬`¦£$%^&*()-_=+[]{};:'@#~,./<>?|";
         bool encode = true; //What mode the program is on
-        string key; //
-        string output; // 
+        string[] keys = new string[7];
+        string output;
         List<string> substrings; //The input split into 4 char chunks
         List<long> subints; //The previous but converted from base 63
         List<string> substringsoutput; //The output split into chunks of 4
         StringBuilder sb = new StringBuilder();
+        Random random = new Random();
         RNGCryptoServiceProvider securerandom = new RNGCryptoServiceProvider();
 
         public MainWindow()
         {
             InitializeComponent();
-            GenerateKey(); //Generates a ket on startup
+
+            NewKey();
         }
 
         private void Encode()
         {
-            if (txtInput.Text != null) //Only if theres text to encode
+            if (txtInput.Text != null && txtInput.Text != "") //Only if theres text to encode
             {
                 IntifyInputEncode(); //Splits the string into 4 char chunks and generates the int list
                 ScrambleInts(); //Does math on the ints 
@@ -42,7 +45,7 @@ namespace EncodeDecode
 
         private void Decode()
         {
-            if (txtInput.Text != null)
+            if (txtInput.Text != null && txtInput.Text != "")
             {
                 IntifyInputDecode(); //Same as encode but splits at every & not every 4 chars
                 UnScrambleInts(); //Reverses math
@@ -53,27 +56,36 @@ namespace EncodeDecode
 
         private void IntifyInputEncode()
         {
-            substrings = new List<string>(Regex.Split(txtInput.Text, @"(?<=\G.{4})", RegexOptions.Singleline)); //Splits input every 4 chars, this is done so that the ints dont become too big and overflow
+            substrings = new List<string>(Regex.Split(txtInput.Text, @"(?<=\G.{1})", RegexOptions.Singleline)); //Splits input every char, this is done so that the ints dont become too big and overflow and some other problem with spaces
             subints = new List<long>(new long[substrings.Count]); //Makes a int list the same length 
 
             for (int i = 0; i < substrings.Count; i++)
             {
+                Regex pattern = new Regex("[¬`¦£$%^&*()-_=+[]{};:'@#~,./<>?|]|[\n]{2}");
+                pattern.Replace(substrings[i], "");
+            }
+
+            for (int i = 0; i < substrings.Count; i++)
+            {
+                if (substrings[i] == "" || substrings[i] == null) continue;
                 subints[i] = FromCustomBase(substrings[i], charList); //Populates the int list by converting from base 63 to base 10
             }
         }
 
         private void IntifyInputDecode()
         {
-            substrings = new List<string>(txtInput.Text.Split('&')); //Splits the text every &
+            substrings = new List<string>(txtInput.Text.Split(splitchars.ToCharArray())); //Splits the text every string splitter
             subints = new List<long>(new long[substrings.Count]);
 
             for (int i = 0; i < substrings.Count; i++)
             {
-                substrings[i].Replace("&", ""); //Deletes the &s as they arent needed
+                Regex pattern = new Regex("[¬`¦£$%^&*()-_=+[]{};:'@#~,./<>?|]|[\n]{2}");
+                pattern.Replace(substrings[i], ""); //Deletes the splitters as they arent needed
             }
 
             for (int i = 0; i < substrings.Count; i++)
             {
+                if (substrings[i] == "" || substrings[i] == null) continue;
                 subints[i] = FromCustomBase(substrings[i], charList); 
             }
         }
@@ -84,17 +96,37 @@ namespace EncodeDecode
             {
                 if (i % 2 == 0)
                 {
-                    subints[i] *= FromCustomBase(key, keychars) + 8870781348;
+                    subints[i] *= (FromCustomBase(keys[0], keychars) - FromCustomBase(keys[5], keychars)) + 8649609027;
                 }
 
                 else if (i % 3 == 0)
                 {
-                    subints[i] *= FromCustomBase(key, keychars) + 3057374526;
+                    subints[i] *= (FromCustomBase(keys[1], keychars) - FromCustomBase(keys[4], keychars)) + 2146210827;
+                }
+
+                else if (i % 5 == 0)
+                {
+                    subints[i] *= (FromCustomBase(keys[2], keychars) - FromCustomBase(keys[3], keychars)) + 3438775563;
+                }
+
+                else if (i % 7 == 0)
+                {
+                    subints[i] *= (FromCustomBase(keys[3], keychars) - FromCustomBase(keys[2], keychars)) + 3723561235;
+                }
+
+                else if (i % 11 == 0)
+                {
+                    subints[i] *= (FromCustomBase(keys[4], keychars) - FromCustomBase(keys[1], keychars)) + 5372054804;
+                }
+
+                else if (i % 13 == 0)
+                {
+                    subints[i] *= (FromCustomBase(keys[5], keychars) - FromCustomBase(keys[0], keychars)) + 3720120433;
                 }
 
                 else
                 {
-                    subints[i] *= FromCustomBase(key, keychars) + 4004675815;
+                    subints[i] *= (FromCustomBase(keys[6], keychars) - FromCustomBase(keys[6], keychars)) + 7994692811;
                 }
             }
         }
@@ -105,17 +137,37 @@ namespace EncodeDecode
             {
                 if (i % 2 == 0)
                 {
-                    subints[i] /= FromCustomBase(key, keychars) + 8870781348;
+                    subints[i] /= (FromCustomBase(keys[0], keychars) - FromCustomBase(keys[5], keychars)) + 8649609027;
                 }
 
                 else if (i % 3 == 0)
                 {
-                    subints[i] /= FromCustomBase(key, keychars) + 3057374526;
+                    subints[i] /= (FromCustomBase(keys[1], keychars) - FromCustomBase(keys[4], keychars)) + 2146210827;
+                }
+
+                else if (i % 5 == 0)
+                {
+                    subints[i] /= (FromCustomBase(keys[2], keychars) - FromCustomBase(keys[3], keychars)) + 3438775563;
+                }
+
+                else if (i % 7 == 0)
+                {
+                    subints[i] /= (FromCustomBase(keys[3], keychars) - FromCustomBase(keys[2], keychars)) + 3723561235;
+                }
+
+                else if (i % 11 == 0)
+                {
+                    subints[i] /= (FromCustomBase(keys[4], keychars) - FromCustomBase(keys[1], keychars)) + 5372054804;
+                }
+
+                else if (i % 13 == 0)
+                {
+                    subints[i] /= (FromCustomBase(keys[5], keychars) - FromCustomBase(keys[0], keychars)) + 3720120433;
                 }
 
                 else
                 {
-                    subints[i] /= FromCustomBase(key, keychars) + 4004675815;
+                    subints[i] /= (FromCustomBase(keys[6], keychars) - FromCustomBase(keys[6], keychars)) + 7994692811;
                 }
             }
         }
@@ -130,11 +182,11 @@ namespace EncodeDecode
             }
         }
 
-        private void AddstringSplits() //Adds a & at the end of every chunk, this is beacuse they change size when going through the encyptor
+        private void AddstringSplits() //Adds a string splitter at the end of every chunk, this is beacuse they change size when going through the encyptor
         {
             for (int i = 0; i < substrings.Count; i++)
             {
-                substringsoutput[i] = substringsoutput[i] + "&";
+                substringsoutput[i] = substringsoutput[i] + splitchars[random.Next(splitchars.Length)];
             }
         }
 
@@ -150,19 +202,34 @@ namespace EncodeDecode
             txtOutput.Text = output;
         }
 
-        private void GenerateKey() //Generates a random key in base 26 
+        private void NewKey()
         {
-            char[] c = new char[6];
-            byte[] randomNumber = new byte[1];
-
-            for (int i = 0; i < c.Length; i++)
+            for (int i = 0; i < keys.Length; i++)
             {
-                securerandom.GetBytes(randomNumber);
-                c[i] = keychars[randomNumber[0] % 26];
+                GenerateKey(i);
             }
 
-            key = new String(c);
-            txtKey.Text = key;
+            txtKey.Text = keys[0];
+            txtKey1.Text = keys[1];
+            txtKey2.Text = keys[2];
+            txtKey3.Text = keys[3];
+            txtKey4.Text = keys[4];
+            txtKey5.Text = keys[5];
+            txtKey6.Text = keys[6];
+        }
+
+        private void GenerateKey(int i) //Generates a random key in base 26 
+        {
+            char[] c = new char[5];
+            byte[] randomNumber = new byte[1];
+
+            for (int ii = 0; ii < c.Length; ii++)
+            {
+                securerandom.GetBytes(randomNumber);
+                c[ii] = keychars[randomNumber[0] % keychars.Length];
+            }
+
+            keys[i] = new String(c);
         }
 
         private static String ToCustomBase(long input, string chars) //Converts from base 10 to any custom base, I used base 63(numbers, uppercase, lowercase and spaces) 
@@ -225,18 +292,55 @@ namespace EncodeDecode
 
         private void BtnKey_Click(object sender, RoutedEventArgs e) //Genetates a new key
         {
-            GenerateKey();
+            NewKey();
             EncodeDecode();
         }
 
         private void TxtInput_TextChanged(object sender, TextChangedEventArgs e) //When user inputs stuff
         {
+            if (txtInput.Text == "") txtOutput.Text = "";
             EncodeDecode();
         }
 
         private void TxtKey_TextChanged(object sender, TextChangedEventArgs e) //User can type in their own key
         {
-            key = txtKey.Text.ToString();
+            keys[0] = txtKey.Text;
+            EncodeDecode();
+        }
+
+        private void TxtKey1_TextChanged(object sender, TextChangedEventArgs e) //User can type in their own key
+        {
+            keys[1] = txtKey1.Text;
+            EncodeDecode();
+        }
+
+        private void TxtKey2_TextChanged(object sender, TextChangedEventArgs e) //User can type in their own key
+        {
+            keys[2] = txtKey2.Text;
+            EncodeDecode();
+        }
+
+        private void TxtKey3_TextChanged(object sender, TextChangedEventArgs e) //User can type in their own key
+        {
+            keys[3] = txtKey3.Text;
+            EncodeDecode();
+        }
+
+        private void TxtKey4_TextChanged(object sender, TextChangedEventArgs e) //User can type in their own key
+        {
+            keys[4] = txtKey4.Text;
+            EncodeDecode();
+        }
+
+        private void TxtKey5_TextChanged(object sender, TextChangedEventArgs e) //User can type in their own key
+        {
+            keys[5] = txtKey5.Text;
+            EncodeDecode();
+        }
+
+        private void TxtKey6_TextChanged(object sender, TextChangedEventArgs e) //User can type in their own key
+        {
+            keys[6] = txtKey6.Text;
             EncodeDecode();
         }
     }
