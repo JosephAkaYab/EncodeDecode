@@ -1,0 +1,15 @@
+C:\Users\User\source\repos\EncodeDecode\EncodeDecode\bin\Debug\EncodeDecode.exe.config
+C:\Users\User\source\repos\EncodeDecode\EncodeDecode\bin\Debug\EncodeDecode.exe
+C:\Users\User\source\repos\EncodeDecode\EncodeDecode\bin\Debug\EncodeDecode.pdb
+C:\Users\User\source\repos\EncodeDecode\EncodeDecode\obj\Debug\EncodeDecode.csprojAssemblyReference.cache
+C:\Users\User\source\repos\EncodeDecode\EncodeDecode\obj\Debug\MainWindow.g.cs
+C:\Users\User\source\repos\EncodeDecode\EncodeDecode\obj\Debug\App.g.cs
+C:\Users\User\source\repos\EncodeDecode\EncodeDecode\obj\Debug\EncodeDecode_MarkupCompile.cache
+C:\Users\User\source\repos\EncodeDecode\EncodeDecode\obj\Debug\EncodeDecode_MarkupCompile.lref
+C:\Users\User\source\repos\EncodeDecode\EncodeDecode\obj\Debug\MainWindow.baml
+C:\Users\User\source\repos\EncodeDecode\EncodeDecode\obj\Debug\EncodeDecode.g.resources
+C:\Users\User\source\repos\EncodeDecode\EncodeDecode\obj\Debug\EncodeDecode.Properties.Resources.resources
+C:\Users\User\source\repos\EncodeDecode\EncodeDecode\obj\Debug\EncodeDecode.csproj.GenerateResource.cache
+C:\Users\User\source\repos\EncodeDecode\EncodeDecode\obj\Debug\EncodeDecode.csproj.CoreCompileInputs.cache
+C:\Users\User\source\repos\EncodeDecode\EncodeDecode\obj\Debug\EncodeDecode.exe
+C:\Users\User\source\repos\EncodeDecode\EncodeDecode\obj\Debug\EncodeDecode.pdb
