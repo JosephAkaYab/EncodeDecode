@@ -61,7 +61,7 @@ namespace EncodeDecode
 
             for (int i = 0; i < substrings.Count; i++)
             {
-                Regex pattern = new Regex("[¬`¦£$%^&*()-_=+[]{};:'@#~,./<>?|]|[\n]{2}");
+                Regex pattern = new Regex(splitchars + "|[\n]{2}");
                 pattern.Replace(substrings[i], "");
             }
 
@@ -79,7 +79,7 @@ namespace EncodeDecode
 
             for (int i = 0; i < substrings.Count; i++)
             {
-                Regex pattern = new Regex("[¬`¦£$%^&*()-_=+[]{};:'@#~,./<>?|]|[\n]{2}");
+                Regex pattern = new Regex(splitchars + "|[\n]{2}");
                 pattern.Replace(substrings[i], ""); //Deletes the splitters as they arent needed
             }
 
@@ -94,39 +94,48 @@ namespace EncodeDecode
         {
             for (int i = 0; i < subints.Count; i++)
             {
+                long num = FromCustomBase(keys[0], keychars) - FromCustomBase(keys[1], keychars) + FromCustomBase(keys[2], keychars) + FromCustomBase(keys[3], keychars) + FromCustomBase(keys[4], keychars) + FromCustomBase(keys[5], keychars) + FromCustomBase(keys[6], keychars);
+                long num2 = FromCustomBase(keys[0], keychars) + FromCustomBase(keys[1], keychars) - FromCustomBase(keys[2], keychars) + FromCustomBase(keys[3], keychars) + FromCustomBase(keys[4], keychars) + FromCustomBase(keys[5], keychars) + FromCustomBase(keys[6], keychars);
+                long num3 = FromCustomBase(keys[0], keychars) + FromCustomBase(keys[1], keychars) + FromCustomBase(keys[2], keychars) - FromCustomBase(keys[3], keychars) + FromCustomBase(keys[4], keychars) + FromCustomBase(keys[5], keychars) + FromCustomBase(keys[6], keychars);
+                long num4 = FromCustomBase(keys[0], keychars) + FromCustomBase(keys[1], keychars) + FromCustomBase(keys[2], keychars) + FromCustomBase(keys[3], keychars) - FromCustomBase(keys[4], keychars) + FromCustomBase(keys[5], keychars) + FromCustomBase(keys[6], keychars);
+                long num5 = FromCustomBase(keys[0], keychars) + FromCustomBase(keys[1], keychars) + FromCustomBase(keys[2], keychars) + FromCustomBase(keys[3], keychars) + FromCustomBase(keys[4], keychars) - FromCustomBase(keys[5], keychars) + FromCustomBase(keys[6], keychars);
+                long num6 = FromCustomBase(keys[0], keychars) + FromCustomBase(keys[1], keychars) + FromCustomBase(keys[2], keychars) + FromCustomBase(keys[3], keychars) + FromCustomBase(keys[4], keychars) + FromCustomBase(keys[5], keychars) - FromCustomBase(keys[6], keychars);
+
+                long num7 = num.ToString().Sum(c => Convert.ToInt32(c)) + num2.ToString().Sum(c => Convert.ToInt32(c)) + num3.ToString().Sum(c => Convert.ToInt32(c)) + num4.ToString().Sum(c => Convert.ToInt32(c)) + num5.ToString().Sum(c => Convert.ToInt32(c)) + num6.ToString().Sum(c => Convert.ToInt32(c));
+
                 if (i % 2 == 0)
                 {
-                    subints[i] *= (FromCustomBase(keys[0], keychars) - FromCustomBase(keys[5], keychars)) + 8649609027;
+                    subints[i] *= (FromCustomBase(keys[0], keychars) * num) + (2 * num2) + (3 * num3) + (4 * num4) - (5 * num5) - (6 * num6) * (128 * num7) + 256;
                 }
 
                 else if (i % 3 == 0)
                 {
-                    subints[i] *= (FromCustomBase(keys[1], keychars) - FromCustomBase(keys[4], keychars)) + 2146210827;
+                    subints[i] *= (FromCustomBase(keys[1], keychars) * num) + (2 * num2) + (3 * num3) + (4 * num4) - (5 * num5) - (6 * num6) * (128 * num7) + 256;
                 }
 
                 else if (i % 5 == 0)
                 {
-                    subints[i] *= (FromCustomBase(keys[2], keychars) - FromCustomBase(keys[3], keychars)) + 3438775563;
+                    subints[i] *= (FromCustomBase(keys[2], keychars) * num) + (2 * num2) + (3 * num3) + (4 * num4) - (5 * num5) - (6 * num6) * (128 * num7) + 256;
                 }
 
                 else if (i % 7 == 0)
                 {
-                    subints[i] *= (FromCustomBase(keys[3], keychars) - FromCustomBase(keys[2], keychars)) + 3723561235;
+                    subints[i] *= (FromCustomBase(keys[3], keychars) * num) + (2 * num2) + (3 * num3) + (4 * num4) - (5 * num5) - (6 * num6) * (128 * num7) + 256;
                 }
 
                 else if (i % 11 == 0)
                 {
-                    subints[i] *= (FromCustomBase(keys[4], keychars) - FromCustomBase(keys[1], keychars)) + 5372054804;
+                    subints[i] *= (FromCustomBase(keys[4], keychars) * num) + (2 * num2) + (3 * num3) + (4 * num4) - (5 * num5) - (6 * num6) * (128 * num7) + 256;
                 }
 
                 else if (i % 13 == 0)
                 {
-                    subints[i] *= (FromCustomBase(keys[5], keychars) - FromCustomBase(keys[0], keychars)) + 3720120433;
+                    subints[i] *= (FromCustomBase(keys[5], keychars) * num) + (2 * num2) + (3 * num3) + (4 * num4) - (5 * num5) - (6 * num6) * (128 * num7) + 256;
                 }
 
                 else
                 {
-                    subints[i] *= (FromCustomBase(keys[6], keychars) - FromCustomBase(keys[6], keychars)) + 7994692811;
+                    subints[i] *= (FromCustomBase(keys[6], keychars) * num) + (2 * num2) + (3 * num3) + (4 * num4) - (5 * num5) - (6 * num6) * (128 * num7) + 256;
                 }
             }
         }
@@ -135,39 +144,49 @@ namespace EncodeDecode
         {
             for (int i = 0; i < subints.Count; i++)
             {
+                long num = FromCustomBase(keys[0], keychars) - FromCustomBase(keys[1], keychars) + FromCustomBase(keys[2], keychars) + FromCustomBase(keys[3], keychars) + FromCustomBase(keys[4], keychars) + FromCustomBase(keys[5], keychars) + FromCustomBase(keys[6], keychars);
+                long num2 = FromCustomBase(keys[0], keychars) + FromCustomBase(keys[1], keychars) - FromCustomBase(keys[2], keychars) + FromCustomBase(keys[3], keychars) + FromCustomBase(keys[4], keychars) + FromCustomBase(keys[5], keychars) + FromCustomBase(keys[6], keychars);
+                long num3 = FromCustomBase(keys[0], keychars) + FromCustomBase(keys[1], keychars) + FromCustomBase(keys[2], keychars) - FromCustomBase(keys[3], keychars) + FromCustomBase(keys[4], keychars) + FromCustomBase(keys[5], keychars) + FromCustomBase(keys[6], keychars);
+                long num4 = FromCustomBase(keys[0], keychars) + FromCustomBase(keys[1], keychars) + FromCustomBase(keys[2], keychars) + FromCustomBase(keys[3], keychars) - FromCustomBase(keys[4], keychars) + FromCustomBase(keys[5], keychars) + FromCustomBase(keys[6], keychars);
+                long num5 = FromCustomBase(keys[0], keychars) + FromCustomBase(keys[1], keychars) + FromCustomBase(keys[2], keychars) + FromCustomBase(keys[3], keychars) + FromCustomBase(keys[4], keychars) - FromCustomBase(keys[5], keychars) + FromCustomBase(keys[6], keychars);
+                long num6 = FromCustomBase(keys[0], keychars) + FromCustomBase(keys[1], keychars) + FromCustomBase(keys[2], keychars) + FromCustomBase(keys[3], keychars) + FromCustomBase(keys[4], keychars) + FromCustomBase(keys[5], keychars) - FromCustomBase(keys[6], keychars);
+
+                long num7 = num.ToString().Sum(c => Convert.ToInt32(c)) + num2.ToString().Sum(c => Convert.ToInt32(c)) + num3.ToString().Sum(c => Convert.ToInt32(c)) + num4.ToString().Sum(c => Convert.ToInt32(c)) + num5.ToString().Sum(c => Convert.ToInt32(c)) + num6.ToString().Sum(c => Convert.ToInt32(c));
+
+
                 if (i % 2 == 0)
                 {
-                    subints[i] /= (FromCustomBase(keys[0], keychars) - FromCustomBase(keys[5], keychars)) + 8649609027;
+                    subints[i] /= (FromCustomBase(keys[0], keychars) * num) + (2 * num2) + (3 * num3) + (4 * num4) - (5 * num5) - (6 * num6) * (128 * num7) + 256;
                 }
 
                 else if (i % 3 == 0)
                 {
-                    subints[i] /= (FromCustomBase(keys[1], keychars) - FromCustomBase(keys[4], keychars)) + 2146210827;
+                    subints[i] /= (FromCustomBase(keys[1], keychars) * num) + (2 * num2) + (3 * num3) + (4 * num4) - (5 * num5) - (6 * num6) * (128 * num7) + 256;
                 }
 
                 else if (i % 5 == 0)
                 {
-                    subints[i] /= (FromCustomBase(keys[2], keychars) - FromCustomBase(keys[3], keychars)) + 3438775563;
+                    subints[i] /= (FromCustomBase(keys[2], keychars) * num) + (2 * num2) + (3 * num3) + (4 * num4) - (5 * num5) - (6 * num6) * (128 * num7) + 256;
                 }
 
                 else if (i % 7 == 0)
                 {
-                    subints[i] /= (FromCustomBase(keys[3], keychars) - FromCustomBase(keys[2], keychars)) + 3723561235;
+                    subints[i] /= (FromCustomBase(keys[3], keychars) * num) + (2 * num2) + (3 * num3) + (4 * num4) - (5 * num5) - (6 * num6) * (128 * num7) + 256;
                 }
 
                 else if (i % 11 == 0)
                 {
-                    subints[i] /= (FromCustomBase(keys[4], keychars) - FromCustomBase(keys[1], keychars)) + 5372054804;
+                    subints[i] /= (FromCustomBase(keys[4], keychars) * num) + (2 * num2) + (3 * num3) + (4 * num4) - (5 * num5) - (6 * num6) * (128 * num7) + 256;
                 }
 
                 else if (i % 13 == 0)
                 {
-                    subints[i] /= (FromCustomBase(keys[5], keychars) - FromCustomBase(keys[0], keychars)) + 3720120433;
+                    subints[i] /= (FromCustomBase(keys[5], keychars) * num) + (2 * num2) + (3 * num3) + (4 * num4) - (5 * num5) - (6 * num6) * (128 * num7) + 256;
                 }
 
                 else
                 {
-                    subints[i] /= (FromCustomBase(keys[6], keychars) - FromCustomBase(keys[6], keychars)) + 7994692811;
+                    subints[i] /= (FromCustomBase(keys[6], keychars) * num) + (2 * num2) + (3 * num3) + (4 * num4) - (5 * num5) - (6 * num6) * (128 * num7) + 256;
                 }
             }
         }
