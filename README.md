@@ -1,4 +1,10 @@
 # EncodeDecode
+v1.2.0
+- Improved encryption:
+- Problem where the key only needed to be close enough to work has been fixed 
+- Problem where the setting the keys as "aaaaa" would do nothing
+- Minor code change
+
 v1.1.0
 - Split chars have been randomised
 - String splits have been reduced to 1 char to fix text encode/decode problem
